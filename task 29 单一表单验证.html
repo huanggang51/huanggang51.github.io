@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		*{
+			padding: 0;
+			margin: 0;
+		}
+		body{
+			padding: 20px;
+		}
+		.form{
+			display: flex;
+			flex-flow: row wrap
+		}
+		.form>label{
+			width: 100px;
+			height: 60px;
+			font-size: 24px;
+			line-height: 60px;
+			padding-right: 20px;
+		}
+		.inputbar{
+			margin: 0 5px;
+		}
+		.inputbar>input{
+			width: 400px;
+			height: 60px;
+			font-size: 36px;
+			line-height: 60px;
+			outline: none;
+			padding: 0 16px;
+		}
+        .hint{
+        	height: 30px;
+        	line-height: 30px;
+        	font-size: 24px;
+        	font-weight: bold;
+        	color: #C1B9B9;
+        }
+        .testBtn{
+            width: 100px;
+            height: 60px;
+            line-height: 60px;
+            font-size: 36px;
+            text-align: center;
+            background: #096AF9;
+            border-radius: 5px;
+            color: #fff;
+            margin-left: 20px;
+            cursor: pointer;
+        }
+	</style>
+</head>
+<body>
+	<div class="form">
+		<label for=".inputbar">名称</label>
+		<div class="inputbar">
+			<input type="text">
+			<p class="hint">必填，长度为4-16个字符</p>
+		</div>
+		<div class="testBtn">验证</div>
+	</div>
+	<script type="text/javascript">
+		(function(){
+			var testBtn=document.querySelector(".testBtn");
+			addHandler(testBtn,'click',test)
+		})();
+		function addHandler(element,type,handler){
+			if (element.addEventListener) {
+				addHandler=function(element,type,handler){
+					element.addEventListener(type,handler,false);
+			    }
+		    }else if (element.attachEvent) {
+				addHandler=function(element,type,handler){
+					element.attachEvent('on'+type,handler);
+				}
+			}
+			return addHandler(element,type,handler);
+		};
+		function trim(word){
+			 return word.replace(/^\s+|\s+$/g,"");
+		}
+		function test(){
+			
+            var inputbar=document.querySelector(".inputbar"),
+                input=inputbar.querySelector('input'),
+                inputText=trim(input.value),
+                hint=inputbar.querySelector(".hint"),
+                testText=inputText.replace(/[\u4E00-\uFA29]|[\uE7C7-\uE7F3]/g, "aa");
+
+            if (!testText) {
+            	hint.innerHTML="姓名不能为空";
+            	hint.style.color="#FA0F0F";
+            	input.style.borderColor="#FA0F0F";
+            }else if(/^.{4,16}$/.test(testText)) {
+            	hint.innerHTML="名称格式正确";
+            	hint.style.color = "#09F62F";
+                input.style.borderColor = "#09F62F";
+            }else {
+                hint.innerHTML = "必须输入4-16个字符,中文字符算两个";
+                hint.style.color = "#FA0F0F";
+                input.style.borderColor = "#FA0F0F";
+            }
+		};
+	</script>
+</body>
+</html>
